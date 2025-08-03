@@ -17,7 +17,7 @@ class EmbeddingService:
             api_version=st.secrets["azure_openai"]["AZURE_OPENAI_API_VERSION"],
             azure_endpoint=st.secrets["azure_openai"]["AZURE_OPENAI_ENDPOINT"],
         )
-        self.model_name = st.secrets["model_config"]["CHAT_MODEL_NAME"]
+        self.model_name = st.secrets["model_config"]["EMBEDDING_MODEL_NAME"]
     
     def get_embedding(self, text: str) -> List[float]:
         """Get embedding for a single text"""
