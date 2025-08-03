@@ -3,6 +3,7 @@ from typing import List, Dict
 import openai
 from dotenv import load_dotenv
 import logging
+import streamlit as st
 
 from document_processor import DocumentProcessor
 from embedding_service import EmbeddingService
@@ -20,11 +21,11 @@ class RAGEngine:
         
         # Initialize Azure OpenAI client for chat
         self.client = openai.AzureOpenAI(
-            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-            api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            api_key=st.secrets["azure_openai"]["AZURE_OPENAI_API_KEY"],
+            api_version=st.secrets["azure_openai"]["AZURE_OPENAI_API_VERSION"],
+            azure_endpoint=st.secrets["azure_openai"]["AZURE_OPENAI_ENDPOINT"],
         )
-        self.chat_model = os.getenv("CHAT_MODEL_NAME")
+        self.chat_model = st.secrets['model_config']["CHAT_MODEL_NAME"]
     
     def ingest_documents(self, document_paths: List[str]):
         """Ingest documents into the RAG system"""

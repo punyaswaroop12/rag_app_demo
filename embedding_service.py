@@ -4,6 +4,7 @@ from typing import List
 import openai
 from dotenv import load_dotenv
 import logging
+import streamlit as st
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
@@ -12,11 +13,11 @@ logger = logging.getLogger(__name__)
 class EmbeddingService:
     def __init__(self):
         self.client = openai.AzureOpenAI(
-            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-            api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+            api_key=st.secrets["azure_openai"]["AZURE_OPENAI_API_KEY"],
+            api_version=st.secrets["azure_openai"]["AZURE_OPENAI_API_VERSION"],
+            azure_endpoint=st.secrets["azure_openai"]["AZURE_OPENAI_ENDPOINT"],
         )
-        self.model_name = os.getenv("EMBEDDING_MODEL_NAME")
+        self.model_name = st.secrets["EMBEDDING_MODEL_NAME"]["CHAT_MODEL_NAME"]
     
     def get_embedding(self, text: str) -> List[float]:
         """Get embedding for a single text"""
@@ -51,3 +52,4 @@ class EmbeddingService:
                 embeddings.extend([[] for _ in batch])
         
         return embeddings
+    
